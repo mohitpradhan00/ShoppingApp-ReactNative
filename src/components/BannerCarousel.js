@@ -1,0 +1,112 @@
+import React, {useRef, useState, useEffect} from 'react';
+import {
+  View,
+  Image,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+  Animated,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
+
+const BannerCarousel = () => {
+  const banners = [
+    {
+      id: '1',
+      image:
+        'https://i.pinimg.com/736x/f1/87/c5/f187c529afece931da168cc3735e2883.jpg',
+    },
+    {
+      id: '2',
+      image:
+        'https://i.pinimg.com/736x/c9/20/a6/c920a61086d7a9d336fb1368d37ecda3.jpg',
+    },
+    {
+      id: '3',
+      image:
+        'https://i.pinimg.com/736x/3f/31/60/3f3160ffb2357500bdce92ecdb263379.jpg',
+    },
+  ];
+
+  const flatListRef = useRef(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex = (currentIndex + 1) % banners.length;
+      setCurrentIndex(nextIndex);
+      flatListRef.current?.scrollToIndex({index: nextIndex, animated: true});
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, banners.length]);
+
+  const handleScroll = Animated.event(
+    [{nativeEvent: {contentOffset: {x: scrollX}}}],
+    {useNativeDriver: false},
+  );
+
+  const pagination = banners.map((_, index) => {
+    const opacity = scrollX.interpolate({
+      inputRange: [(index - 1) * width, index * width, (index + 1) * width],
+      outputRange: [0.3, 1, 0.3],
+      extrapolate: 'clamp',
+    });
+
+    return <Animated.View key={index} style={[styles.dot, {opacity}]} />;
+  });
+
+  return (
+    <View style={styles.carouselContainer}>
+      <FlatList
+        ref={flatListRef}
+        data={banners}
+        keyExtractor={item => item.id}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onScroll={handleScroll}
+        renderItem={({item}) => (
+          <View style={styles.bannerContainer}>
+            <Image source={{uri: item.image}} style={styles.bannerImage} />
+          </View>
+        )}
+      />
+      <View style={styles.paginationContainer}>{pagination}</View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  carouselContainer: {
+    position: 'relative',
+  },
+  bannerContainer: {
+    width,
+    height: 200,
+  },
+  bannerImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  paginationContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#007bff',
+    marginHorizontal: 4,
+  },
+});
+
+export default BannerCarousel;
