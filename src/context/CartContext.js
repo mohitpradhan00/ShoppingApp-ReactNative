@@ -1,63 +1,87 @@
 import React, {createContext, useState, useContext} from 'react';
-
+import {productsData} from '../Data/ProductData';
 
 const CartContext = createContext();
 
-// Cart provider component
 export const CartProvider = ({children}) => {
   const [cart, setCart] = useState([]);
+  const [promoCode, setPromoCode] = useState('');
+  const [discount, setDiscount] = useState(0);
 
-  // Add product to cart
-  const addToCart = (product, quantity) => {
-    const existingProduct = cart.find(item => item.id === product.id);
-    if (existingProduct) {
-      // If the product already exists, update the quantity
-      const updatedCart = cart.map(item =>
-        item.id === product.id
-          ? {...item, quantity: item.quantity + quantity}
-          : item,
+  const addToCart = product => {
+    const existingItem = cart.find(item => item.name === product.name);
+    if (existingItem) {
+      setCart(
+        cart.map(item =>
+          item.name === product.name ? {...item, count: item.count + 1} : item,
+        ),
       );
-      setCart(updatedCart);
     } else {
-      // If the product doesn't exist, add it to the cart
-      setCart([...cart, {...product, quantity}]);
+      setCart([...cart, {...product, count: 1}]);
     }
   };
 
-  // Remove product 
-  const removeFromCart = productId => {
-    const updatedCart = cart.filter(item => item.id !== productId);
-    setCart(updatedCart);
+  const removeFromCart = productName => {
+    setCart(cart.filter(item => item.name !== productName));
   };
 
-  // Update product quantity 
-  const updateQuantity = (productId, quantity) => {
-    const updatedCart = cart.map(item =>
-      item.id === productId ? {...item, quantity} : item,
+  const incrementCount = productName => {
+    setCart(
+      cart.map(item =>
+        item.name === productName ? {...item, count: item.count + 1} : item,
+      ),
     );
-    setCart(updatedCart);
   };
 
-  //total price
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const decrementCount = productName => {
+    setCart(
+      cart.map(item =>
+        item.name === productName && item.count > 1
+          ? {...item, count: item.count - 1}
+          : item,
+      ),
+    );
+  };
+
+  const calculateTotal = () => {
+    const subtotal = cart.reduce(
+      (acc, item) => acc + item.price * item.count,
+      0,
+    );
+    return subtotal - subtotal * (discount / 100);
+  };
+
+  const applyPromoCode = code => {
+    if (code === 'DISCOUNT10') {
+      setDiscount(10); // 10% discount
+    } else {
+      setDiscount(0);
+    }
+    setPromoCode(code);
+  };
+
+  const proceedToPayment = () => {
+    alert('Proceeding to payment...');
+    setCart([]);
   };
 
   return (
     <CartContext.Provider
       value={{
         cart,
+        promoCode,
+        discount,
         addToCart,
         removeFromCart,
-        updateQuantity,
-        getTotalPrice,
+        incrementCount,
+        decrementCount,
+        calculateTotal,
+        applyPromoCode,
+        proceedToPayment,
       }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Custom hook
-export const useCart = () => {
-  return useContext(CartContext);
-};
+export const useCart = () => useContext(CartContext);

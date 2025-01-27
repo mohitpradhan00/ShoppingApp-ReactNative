@@ -12,25 +12,9 @@ import {useNavigation} from '@react-navigation/native';
 const Footer = () => {
   const navigation = useNavigation();
 
-  const handleCategoryPress = category => {
-    const screen =
-      category === 'all'
-        ? 'Home'
-        : category === 'men'
-        ? 'MenScreen'
-        : category === 'women'
-        ? 'WomenScreen'
-        : 'HomeScreen';
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      {/*    <FlatList
-           data={products}
-           keyExtractor={item => item.id}
-           renderItem={({item}) => <Text>{item.name}</Text>} // Replace with ProductCard component
-           contentContainerStyle={styles.listContent}
-      /> */}
+      
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.footerButton}

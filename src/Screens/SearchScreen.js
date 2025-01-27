@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { productsData } from '../Data/ProductData';
+import {productsData} from '../Data/ProductData';
 
 const SearchScreen = () => {
   const product = productsData;
@@ -32,7 +32,7 @@ const SearchScreen = () => {
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
-         navigation.navigate('ProductDetailScreen', {productId: item.id})
+        navigation.navigate('ProductDetailScreen', {productId: item.id})
       }>
       <Image source={{uri: item.image}} style={styles.image} />
       <Text style={styles.name}>{item.name}</Text>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     padding: 10,
-    height:'100vh',
+    height: '100vh',
   },
   searchInput: {
     height: 50,

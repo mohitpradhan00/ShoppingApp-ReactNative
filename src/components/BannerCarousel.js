@@ -6,26 +6,29 @@ import {
   StyleSheet,
   Dimensions,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 const BannerCarousel = () => {
+  const navigation = useNavigation();
   const banners = [
     {
       id: '1',
       image:
-        'https://i.pinimg.com/736x/f1/87/c5/f187c529afece931da168cc3735e2883.jpg',
+        'https://www.shutterstock.com/shutterstock/photos/1497823466/display_1500/stock-vector-flash-sale-discount-banner-template-promotion-1497823466.jpg',
     },
     {
       id: '2',
       image:
-        'https://i.pinimg.com/736x/c9/20/a6/c920a61086d7a9d336fb1368d37ecda3.jpg',
+        'https://www.shutterstock.com/shutterstock/photos/1539898688/display_1500/stock-vector-coupon-fashion-ticket-card-element-template-for-graphics-design-vector-illustration-1539898688.jpg',
     },
     {
       id: '3',
       image:
-        'https://i.pinimg.com/736x/3f/31/60/3f3160ffb2357500bdce92ecdb263379.jpg',
+        'https://www.shutterstock.com/shutterstock/photos/2039676860/display_1500/stock-vector--coupon-promotion-sale-for-website-internet-ads-social-media-big-sale-and-super-sale-coupon-2039676860.jpg',
     },
   ];
 
@@ -69,9 +72,11 @@ const BannerCarousel = () => {
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
         renderItem={({item}) => (
-          <View style={styles.bannerContainer}>
-            <Image source={{uri: item.image}} style={styles.bannerImage} />
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Game')}>
+            <View style={styles.bannerContainer}>
+              <Image source={{uri: item.image}} style={styles.bannerImage} />
+            </View>
+          </TouchableOpacity>
         )}
       />
       <View style={styles.paginationContainer}>{pagination}</View>
@@ -84,6 +89,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   bannerContainer: {
+    marginTop: 5,
     width,
     height: 200,
   },

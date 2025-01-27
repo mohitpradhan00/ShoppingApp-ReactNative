@@ -11,10 +11,12 @@ import ProductCard from '../components/ProductCard';
 import {fetchProducts} from '../api/Contentful';
 import {productsData} from '../Data/ProductData';
 import Footer from '../components/Footer';
+import Categories from '../components/Categories';
+import BannerCarousel from '../components/BannerCarousel';
 
 const MenScreen = () => {
   const [menProducts, setMenProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // State for loading
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -25,21 +27,20 @@ const MenScreen = () => {
         );
         setMenProducts(fetchedProducts);
       } catch (error) {
-        // Fallback to local data if fetch fails
         const fallbackProducts = productsData.filter(
           product => product.category === 'men',
         );
         setMenProducts(fallbackProducts);
         console.error('Error loading products:', error);
       } finally {
-        setLoading(false); // Stop the loading state once data is fetched
+        setLoading(false); 
       }
     };
 
     loadProducts();
   }, []);
 
-  // Show loading spinner if data is still being fetched
+  
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
@@ -53,6 +54,7 @@ const MenScreen = () => {
   if (menProducts.length === 0) {
     return (
       <SafeAreaView style={styles.container}>
+        <Categories/>
         <Text style={styles.noProductsText}>No products found for Men.</Text>
       </SafeAreaView>
     );
@@ -60,7 +62,8 @@ const MenScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.sectionTitle}>Men's Section</Text>
+      <BannerCarousel/>
+      <Categories/>
       <FlatList
         data={menProducts}
         keyExtractor={item => item.id || item.sys?.id} 
@@ -68,7 +71,6 @@ const MenScreen = () => {
         renderItem={({item}) => <ProductCard product={item} />}
         contentContainerStyle={styles.listContent}
       />
-      <Footer/>
     </SafeAreaView>
   );
 };

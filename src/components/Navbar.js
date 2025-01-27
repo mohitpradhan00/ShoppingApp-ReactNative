@@ -39,7 +39,8 @@ const Navbar = () => {
       <View style={styles.iconsContainer}>
         {/* WishList Icon */}
         <View style={styles.cartIconContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('wishlist')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('WishlistScreen')}>
             <Image
               source={{
                 uri: 'https://png.pngtree.com/template/20191025/ourmid/pngtree-love-interface-line-vector-single-icon-image_319675.jpg',
@@ -48,7 +49,7 @@ const Navbar = () => {
             />
             {wishlist.length > 0 && (
               <View style={styles.cartBadge}>
-                <Text style={styles.cartBadgeText}>{cart.length}</Text>
+                <Text style={styles.cartBadgeText}>{wishlist.length}</Text>
               </View>
             )}
           </TouchableOpacity>
@@ -65,9 +66,9 @@ const Navbar = () => {
             />
             {/* Cart Length Badge */}
             {/* {cart.length  && ( */}
-              <View style={styles.cartBadge}>
-                <Text style={styles.cartBadgeText}>{2}</Text>
-              </View>
+            <View style={styles.cartBadge}>
+              <Text style={styles.cartBadgeText}>{cart.length}</Text>
+            </View>
             {/* )} */}
           </View>
         </TouchableOpacity>

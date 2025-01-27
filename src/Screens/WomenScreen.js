@@ -11,6 +11,8 @@ import ProductCard from '../components/ProductCard';
 import {fetchProducts} from '../api/Contentful';
 import { productsData } from '../Data/ProductData';
 import Footer from '../components/Footer';
+import Categories from '../components/Categories';
+import BannerCarousel from '../components/BannerCarousel';
 
 const WomenScreen = () => {
   const [products, setProducts] = useState([]);
@@ -53,14 +55,15 @@ const WomenScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.sectionTitle}>Women's Section</Text>
+      <BannerCarousel />
+      <Categories />
       <FlatList
         data={products}
-        keyExtractor={item => item.id || item.sys?.id} // Ensure unique key
+        keyExtractor={item => item.id || item.sys?.id} 
         renderItem={({item}) => <ProductCard product={item} />}
         contentContainerStyle={styles.listContent}
       />
-      <Footer/>
+      {/* <Footer /> */}
     </SafeAreaView>
   );
 };

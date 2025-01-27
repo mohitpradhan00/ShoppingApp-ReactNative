@@ -1,9 +1,8 @@
-// ProductDetailScreen.js
 import React from 'react';
 import {View, Text, Image, StyleSheet, ScrollView, Button} from 'react-native';
 
 const SingleProductSCreen = ({route, navigation}) => {
-  const {product} = route.params; // Get the product passed from the previous screen
+  const {product} = route.params; 
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -15,7 +14,6 @@ const SingleProductSCreen = ({route, navigation}) => {
       <Button
         title="Add to Cart"
         onPress={() => {
-          // Implement the add to cart functionality here
           console.log('Product added to cart:', product.name);
         }}
       />

@@ -11,10 +11,10 @@ import BannerCarousel from '../components/BannerCarousel';
 import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer';
 import fetchProducts from '../api/Contentful';
-import { productsData } from '../Data/ProductData';
+import {productsData} from '../Data/ProductData';
 import Categories from '../components/Categories';
 
-const HomeScreen = () => {
+const AllProductScreen = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,12 +22,12 @@ const HomeScreen = () => {
     const loadProducts = async () => {
       try {
         const fetchedProducts = await fetchProducts();
-        setData(fetchedProducts); 
+        setData(fetchedProducts);
       } catch (error) {
         setData(productsData);
-        // console.error('Error loading products:', error);
+        console.error('Error loading products:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -44,21 +44,19 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BannerCarousel />
-      <Categories/>
       <FlatList
         data={data}
         keyExtractor={item => item.id}
-        numColumns={2} // columns
+        numColumns={2} // Grid with 2 columns
         contentContainerStyle={styles.listContainer}
-        columnWrapperStyle={styles.row} 
+        columnWrapperStyle={styles.row} // Ensure spacing between columns
         renderItem={({item}) => <ProductCard product={item} />}
       />
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default AllProductScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -66,10 +64,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   listContainer: {
-    padding: 10, 
+    padding: 10, // Add padding around the list
   },
   row: {
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between', // Space out columns
   },
   loadingContainer: {
     flex: 1,
