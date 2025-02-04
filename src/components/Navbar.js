@@ -65,11 +65,11 @@ const Navbar = () => {
               style={styles.icon}
             />
             {/* Cart Length Badge */}
-            {/* {cart.length  && ( */}
+            {cart.length  && (
             <View style={styles.cartBadge}>
               <Text style={styles.cartBadgeText}>{cart.length}</Text>
             </View>
-            {/* )} */}
+             )} 
           </View>
         </TouchableOpacity>
       </View>
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     color: '#ed5d28',
     fontSize: 20,
     fontWeight: 'bold',
-    flex: 1, // This ensures the brand name takes up all available space in the center
-    textAlign: 'center', // Centers the brand name horizontally
+    flex: 1, 
+    textAlign: 'center', 
   },
   iconsContainer: {
     flexDirection: 'row',
